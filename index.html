@@ -6,6 +6,11 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 
+    <script
+            src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
+            crossorigin="anonymous"></script>
+
 
     <link rel="stylesheet" href="css/style.css">
 
@@ -21,15 +26,33 @@
         <div class="item-wrap">
             <a href="#">
                 <img src="he.png" alt="">
-                <span class="he">he</span>
+                <span class="he span">he</span>
             </a>
         </div>
+
         <div class="item-wrap">
             <a href="#">
-<div>                <img src="she.png" alt="">
-                <span class="she">she</span>
-</div>            </a>
+                <div class="frosted-glass-cont">
+                    <img src="she.png" alt="">
+                    <div class="frosted-glass-text">
+                        <svg>
+                            <pattern id="she-pattern"
+                                     width="100%"
+                                     height="100%"
+                                     patternUnits="userSpaceOnUse"
+                                     x="0"
+                                     y="0">
+                                <image width="100%" height="100%" xlink:href="she-blur-01.jpg"></image>
+                            </pattern>
+                            <text text-anchor="middle" x="50%" y="90%" class="she span" style="fill:url(#she-pattern);">she</text>
+
+
+                        </svg>
+                    </div>
+                </div>
+            </a>
         </div>
+
 
     </div>
 </main>
@@ -39,121 +62,21 @@
 </html>
 
 <script>
+    var $scale = '1.05';
 
-    /**
-     -webkit-background-clip: text Polyfill
 
-     # What? #
-     A polyfill which replaces the specified element with a SVG
-     in browser where "-webkit-background-clip: text"
-     is not available.
-
-     Fork it on GitHub
-     https://github.com/TimPietrusky/background-clip-text-polyfill
-
-     # 2013 by Tim Pietrusky
-     # timpietrusky.com
-     **/
-
-    Element.prototype.backgroundClipPolyfill = function () {
-        var a = arguments[0],
-            d = document,
-            b = d.body,
-            el = this;
-
-        function hasBackgroundClip() {
-            return b.style.webkitBackgroundClip != undefined;
-        };
-
-        function addAttributes(el, attributes) {
-            for (var key in attributes) {
-                el.setAttribute(key, attributes[key]);
+    $(".frosted-glass-text").on('mouseover', function () {
+        $('.frosted-glass-cont pattern').attr({
+                'patternTransform': ('scale(' + $scale +')')
             }
-        }
-
-        function createSvgElement(tagname) {
-            return d.createElementNS('http://www.w3.org/2000/svg', tagname);
-        }
-
-        function createSVG() {
-            var a = arguments[0],
-                svg = createSvgElement('svg'),
-                pattern = createSvgElement('pattern'),
-                image = createSvgElement('image'),
-                text = createSvgElement('text');
-
-            // Add attributes to elements
-            addAttributes(pattern, {
-                'id' : a.id,
-                'patternUnits' : 'userSpaceOnUse',
-                'width' : a.width,
-                'height' : a.height
-            });
-
-            addAttributes(image, {
-                'width' : a.width,
-                'height' : a.height
-            });
-            image.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', a.url);
-
-            addAttributes(text, {
-                'x' : 0,
-                'y' : 80,
-                'class' : a['class'],
-                'style' : 'fill:url(#' + a.id + ');'
-            });
-
-            // Set text
-            text.textContent = a.text;
-
-            // Add elements to pattern
-            pattern.appendChild(image);
-
-            // Add elements to SVG
-            svg.appendChild(pattern);
-            svg.appendChild(text);
-
-            return svg;
-        };
-
-        /*
-         * Replace the element if background-clip
-         * is not available.
-         */
-        if (!hasBackgroundClip()) {
-            var img = new Image();
-            img.onload = function() {
-                var svg = createSVG({
-                    'id' : a.patternID,
-                    'url' : a.patternURL,
-                    'class' : a['class'],
-                    'width' : this.width,
-                    'height' : this.height,
-                    'text' : el.textContent
-                });
-
-                el.parentNode.replaceChild(svg, el);
-            }
-            img.src = a.patternURL;
-        }
-    };
-
-
-    var element = document.querySelector('.she');
-
-    /*
-     * Call the polyfill
-     *
-     * patternID : the unique ID of the SVG pattern
-     * patternURL : the URL to the background-image
-     * class : the css-class applied to the SVG
-     */
-    element.backgroundClipPolyfill({
-        'patternID' : 'mypattern',
-        'patternURL' : 'url/to/background/pattern',
-        'class' : 'myelement'
+        )
     });
 
-
+    $(".frosted-glass-text").on('mouseleave', function () {
+        $('.frosted-glass-cont pattern').attr({
+                'patternTransform': ''
+            }
+        )
+    })
 
 </script>
